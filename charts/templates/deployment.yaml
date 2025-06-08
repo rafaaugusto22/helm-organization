@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include (printf "%s.fullname" .Chart.Name) . }}
+  name: {{ include "chart-name.fullname" . }}
   labels:
-    {{- include (printf "%s.labels" .Chart.Name) . | nindent 4 }}
+    {{- include "chart-name.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include (printf "%s.selectorLabels" .Chart.Name) . | nindent 6 }}
+      {{- include "chart-name.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include (printf "%s.selectorLabels" .Chart.Name) . | nindent 8 }}
+        {{- include "chart-name.selectorLabels" . | nindent 8 }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
