@@ -1,10 +1,10 @@
 {{/* Nome base do chart */}}
-{{- define "nginx-app.name" -}}
+{{- define "chart-name.name" -}}
 {{ .Chart.Name }}
 {{- end }}
 
 {{/* Nome do chart com possibilidade de override */}}
-{{- define "nginx-app.fullname" -}}
+{{- define "chart-name.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else if .Values.nameOverride }}
@@ -15,8 +15,8 @@
 {{- end }}
 
 {{/* Labels padrão recomendados pelo Helm */}}
-{{- define "nginx-app.labels" -}}
-app.kubernetes.io/name: {{ include "nginx-app.name" . }}
+{{- define "chart-name.labels" -}}
+app.kubernetes.io/name: {{ include "chart-name.name" . }}
 helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/version: {{ .Chart.AppVersion }}
@@ -24,7 +24,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
 {{/* Labels para selector */}}
-{{- define "nginx-app.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "nginx-app.name" . }}
+{{- define "chart-name.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "chart-name.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
