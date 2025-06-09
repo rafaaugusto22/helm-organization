@@ -14,39 +14,15 @@ spec:
       labels:
         {{- include "chart-name.selectorLabels" . | nindent 8 }}
     spec:
-      # Configurar security context para OpenShift
-      securityContext:
-        runAsNonRoot: true
-        fsGroup: 101
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          # Security context para o container
-          securityContext:
-            allowPrivilegeEscalation: false
-            runAsUser: 101
-            runAsGroup: 101
-            capabilities:
-              drop:
-                - ALL
           ports:
             - name: http
               containerPort: 80
               protocol: TCP
           env:
             {{- toYaml .Values.env | nindent 12 }}
-          # Volumes para diretórios temporários
-          volumeMounts:
-            - name: nginx-cache
-              mountPath: /var/cache/nginx
-            - name: nginx-run
-              mountPath: /var/run
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-      # Definir volumes temporários
-      volumes:
-        - name: nginx-cache
-          emptyDir: {}
-        - name: nginx-run
-          emptyDir: {}
